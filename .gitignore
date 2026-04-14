@@ -33,3 +33,8 @@
 # Ignore key files for decrypting credentials and more.
 /config/*.key
 
+# Ignore kamal secrets file
+/.kamal/secrets
+
+# Ignore env source script for local dev
+/env.sh
