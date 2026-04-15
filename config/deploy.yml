@@ -19,6 +19,7 @@ env:
     - STMP_PASSWORD
 
 aliases:
+  release: deploy --skip-push --version "sha-$(git rev-parse --short HEAD)"
   console: app exec --interactive --reuse "bin/rails console"
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f

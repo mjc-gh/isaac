@@ -5,6 +5,15 @@ on:
   push:
     branches: [ main ]
 
+env:
+  RAILS_ENV: test
+  SECRET_KEY_BASE: secret_key_base
+  OPENROUTER_API_KEY: openrouter_api_key
+  SMTP_ADDRESS: smtp.example.com
+  SMTP_DOMAIN: isaac.example.com
+  SMTP_USERNAME: ai@isaac.example.com
+  SMTP_PASSWORD: smtp_password
+
 jobs:
   scan_ruby:
     runs-on: ubuntu-latest
@@ -20,10 +29,10 @@ jobs:
 
       - name: Scan for common Rails security vulnerabilities using static analysis
         run: bin/brakeman --no-pager
-      
+
       - name: Scan for known security vulnerabilities in gems used
         run: bin/bundler-audit
-      
+
   scan_js:
     runs-on: ubuntu-latest
 
@@ -87,8 +96,4 @@ jobs:
           bundler-cache: true
 
       - name: Run tests
-        env:
-          RAILS_ENV: test
-          # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-          # REDIS_URL: redis://localhost:6379/0
         run: bin/rails db:test:prepare test
