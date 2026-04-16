@@ -2,7 +2,8 @@
 
 # :nocov:
 class ApplicationMailer < ActionMailer::Base
-  default from: "from@example.com"
+  default from: Environ["SMTP_USER_NAME"]
+
   layout "mailer"
 end
 # :nocov:
