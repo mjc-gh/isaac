@@ -1,0 +1,13 @@
+alice:
+  email: alice@example.com
+  first_name: Alice
+  last_name: Smith
+
+bob:
+  email: bob@example.com
+  first_name: Bob
+  last_name: Johnson
+
+charlie:
+  email: charlie@example.com
+  first_name: Charlie
