@@ -4,6 +4,31 @@ ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
 require "rails/test_help"
 
+if ENV["COVERAGE"].present?
+  require "simplecov"
+  require "simplecov-console"
+
+  SimpleCov.start(:rails) do
+    minimum_coverage 100
+
+    add_filter "vendor"
+    add_filter "test"
+
+    # NOTE: This is loaded as part of app environment and we cannot
+    # correctly measure code coverage as a result.
+    add_filter "lib/environ.rb"
+  end
+
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    SimpleCov::Formatter::Console
+  ])
+
+  SimpleCov::Formatter::Console.use_colors = $stdout.tty?
+  SimpleCov::Formatter::Console.show_covered = ENV["COVERAGE_FULL"]
+  SimpleCov::Formatter::Console.output_style = "table"
+end
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers

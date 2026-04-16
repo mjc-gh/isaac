@@ -31,4 +31,6 @@ end
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
+  gem 'simplecov', require: false
+  gem "simplecov-console", require: false
 end

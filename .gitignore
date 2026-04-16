@@ -36,5 +36,8 @@
 # Ignore kamal secrets file
 /.kamal/secrets
 
+# Ignore code coverage reports
+/coverage/*
+
 # Ignore env source script for local dev
 /env.sh
