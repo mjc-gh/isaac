@@ -101,4 +101,7 @@ Rails.application.configure do
     open_timeout:         5,
     read_timeout:         5
   }
+
+  # Setup Action Mailbox ingress
+  config.action_mailbox.ingress = ENV.fetch("ACTION_MAILBOX_INGRESS", "mailgun")
 end

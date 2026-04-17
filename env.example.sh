@@ -7,6 +7,9 @@ export SMTP_DOMAIN=isaac.example.com
 export SMTP_USER_NAME=ai@isaac.example.com
 export SMTP_PASSWORD=smtp_password
 
+# See https://guides.rubyonrails.org/action_mailbox_basics.html#ingress-configuration
+export ACTION_MAILBOX_INGRESS=mailgun
+
 # For deploys with Kamal
 # export KAMAL_VOLUME_PATH="/path/to/volume"
 # export KAMAL_WEB_HOST="1.2.3.4"
