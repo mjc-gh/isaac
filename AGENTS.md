@@ -7,7 +7,7 @@ Rails, Action Mailbox, and RubyLLM.
 
 | Task | Command |
 |------|---------|
-| Generate | `./bin/rails g [model\|controller\|job\|mailbox]` |
+| Generate | `./bin/rails g [model\|controller\|job\|mailbox\|mailer]` |
 | Test | `./bin/rails t` \| `./bin/rails t test/models/site_test.rb` \| `./bin/rails t --name pattern` |
 | Coverage | `COVERAGE=1 ./bin/rails t` |
 | Lint | `./bin/rubocop` |
