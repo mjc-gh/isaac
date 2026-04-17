@@ -11,7 +11,7 @@ env:
   OPENROUTER_API_KEY: openrouter_api_key
   SMTP_ADDRESS: smtp.example.com
   SMTP_DOMAIN: isaac.example.com
-  SMTP_USERNAME: ai@isaac.example.com
+  SMTP_USER_NAME: ai@isaac.example.com
   SMTP_PASSWORD: smtp_password
 
 jobs:
