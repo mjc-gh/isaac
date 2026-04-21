@@ -5,6 +5,7 @@ gem "rails", "~> 8.1.3"
 # App
 gem "bootsnap"
 gem "importmap-rails"
+gem "mission_control-jobs"
 gem "postmark-rails"
 gem "propshaft"
 gem "puma", ">= 5.0"

@@ -18,6 +18,7 @@ is my personal digital assistant built with Rails, Action Mailbox, and
 
   SECRET_KEY_BASE=[random value]
 
+  ISAAC_MISSION_CONTROL_PASSWORD=[password for mission control; optional]
   ISAAC_OPENROUTER_API_KEY=[openroute API key]
   ISAAC_POSTMARK_API_KEY=[postmark API key]
   ISAAC_SENDER_ADDRESS=isaac@example.com
