@@ -13,5 +13,8 @@ module Isaac
     config.autoload_lib(ignore: %w[assets tasks])
 
     config.secret_key_base = Environ["SECRET_KEY_BASE"]
+
+    # Disable image processing
+    config.active_storage.variant_processor = :disabled
   end
 end
