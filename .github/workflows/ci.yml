@@ -96,7 +96,7 @@ jobs:
           bundler-cache: true
 
       - name: Run tests
-        run: bin/rails db:test:prepare test
+        run: COVERAGE=1 bin/rails db:test:prepare test
 
   build_and_push_docker:
     runs-on: ubuntu-latest
