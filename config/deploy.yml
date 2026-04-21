@@ -3,7 +3,7 @@ image: ghcr.io/mjc-gh/isaac
 servers:
   web:
     hosts:
-      - <%= ENV.fetch("KAMAL_WEB_HOST"] %>
+      - <%= ENV.fetch("KAMAL_WEB_HOST") %>
 registry:
   server: ghcr.io
   username: mjc-gh
