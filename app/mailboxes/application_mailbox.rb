@@ -2,6 +2,6 @@
 
 # :nocov:
 class ApplicationMailbox < ActionMailbox::Base
-  # routing /something/i => :somewhere
+  routing ->(mail) { mail.to.include?(Environ["SMTP_USER_NAME"]) } => :assistant
 end
 # :nocov:

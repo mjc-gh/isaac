@@ -36,3 +36,5 @@ group :test do
   gem 'simplecov', require: false
   gem "simplecov-console", require: false
 end
+
+gem "minitest-mock", "~> 5.27", groups: [:test, :development]
