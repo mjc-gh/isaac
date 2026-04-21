@@ -1,22 +1,15 @@
 service: isaac
 image: ghcr.io/mjc-gh/isaac
-servers:
-  web:
-    hosts:
-      - <%= ENV.fetch("KAMAL_WEB_HOST") %>
+builder:
+  arch:
+    - amd64
+    - arm64
 registry:
   server: ghcr.io
-  username: mjc-gh
+  username:
+    - KAMAL_REGISTRY_USERNAME
   password:
     - KAMAL_REGISTRY_PASSWORD
-env:
-  secret:
-    - SECRET_KEY_BASE
-    - OPENROUTER_API_KEY
-    - STMP_ADDRESS
-    - STMP_DOMAIN
-    - STMP_USERNAME
-    - STMP_PASSWORD
 
 aliases:
   release: deploy --skip-push --version "sha-$(git rev-parse --short HEAD)"
@@ -24,6 +17,20 @@ aliases:
   shell: app exec --interactive --reuse "bash"
   logs: app logs -f
   dbc: app exec --interactive --reuse "bin/rails dbconsole --include-password"
+
+env:
+  secret:
+    - SECRET_KEY_BASE
+    - OPENROUTER_API_KEY
+    - SMTP_ADDRESS
+    - SMTP_DOMAIN
+    - SMTP_USER_NAME
+    - SMTP_PASSWORD
+
+servers:
+  web:
+    hosts:
+      - <%= ENV.fetch("KAMAL_WEB_HOST") %>
 
 volumes:
   - "<%= ENV.fetch("KAMAL_VOLUME_PATH") %>:/rails/storage"
