@@ -11,6 +11,9 @@
 ARG RUBY_VERSION=3.4.7
 FROM docker.io/library/ruby:$RUBY_VERSION-slim AS base
 
+# Label for kamal deploys
+LABEL service="isaac"
+
 # Rails app lives here
 WORKDIR /rails
 
