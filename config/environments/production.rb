@@ -104,5 +104,5 @@ Rails.application.configure do
   }
 
   # Setup Action Mailbox ingress
-  config.action_mailbox.ingress = ENV.fetch("ACTION_MAILBOX_INGRESS", "mailgun")
+  config.action_mailbox.ingress = ENV.fetch("ACTION_MAILBOX_INGRESS", "mailgun").to_sym
 end
