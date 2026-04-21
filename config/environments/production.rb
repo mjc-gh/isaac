@@ -89,20 +89,8 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # Setup STMP configuration for ActionMailer
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-    address:              Environ["SMTP_ADDRESS"],
-    port:                 587,
-    domain:               Environ["SMTP_DOMAIN"],
-    user_name:            Environ["SMTP_USER_NAME"],
-    password:             Environ["SMTP_PASSWORD"],
-    authentication:       "plain",
-    enable_starttls_auto: true,
-    open_timeout:         5,
-    read_timeout:         5
-  }
-
-  # Setup Action Mailbox ingress
-  config.action_mailbox.ingress = ENV.fetch("ACTION_MAILBOX_INGRESS", "mailgun").to_sym
+  # Setup Postmark for delivering and receiving emails
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = { api_token: Environ["ISAAC_POSTMARK_API_KEY"] }
+  config.action_mailbox.ingress = :postmark
 end

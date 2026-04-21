@@ -20,12 +20,11 @@ aliases:
 
 env:
   secret:
+    - ISAAC_OPENROUTER_API_KEY
+    - ISAAC_SENDER_ADDRESS
+    - ISAAC_POSTMARK_API_KEY
+    - RAILS_INBOUND_EMAIL_PASSWORD
     - SECRET_KEY_BASE
-    - OPENROUTER_API_KEY
-    - SMTP_ADDRESS
-    - SMTP_DOMAIN
-    - SMTP_USER_NAME
-    - SMTP_PASSWORD
 
 servers:
   web:
@@ -34,3 +33,7 @@ servers:
 
 volumes:
   - "<%= ENV.fetch("KAMAL_VOLUME_PATH") %>:/rails/storage"
+
+proxy:
+  host: <%= ENV.fetch("KAMAL_PROXY_HOST") %>
+  ssl: true

@@ -1,6 +1,6 @@
 RubyLLM.configure do |config|
   # Set API key
-  config.openrouter_api_key = Environ["OPENROUTER_API_KEY"]
+  config.openrouter_api_key = Environ["ISAAC_OPENROUTER_API_KEY"]
 
   config.default_model = "google/gemma-3-12b-it:free"
 

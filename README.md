@@ -18,12 +18,10 @@ is my personal digital assistant built with Rails, Action Mailbox, and
 
   SECRET_KEY_BASE=[random value]
 
-  OPENROUTER_API_KEY=[openroute API key]
-
-  SMTP_ADDRESS=[server address]
-  SMTP_DOMAIN=[domain name]
-  SMTP_USER_NAME=[user name]
-  SMTP_PASSWORD=[password]
+  ISAAC_OPENROUTER_API_KEY=[openroute API key]
+  ISAAC_POSTMARK_API_KEY=[postmark API key]
+  ISAAC_SENDER_ADDRESS=isaac@example.com
+  RAILS_INBOUND_EMAIL_PASSWORD=[postmark inbound password]
   ```
 2. Set some env vars for your servers configuration
   ```

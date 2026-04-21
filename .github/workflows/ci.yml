@@ -6,13 +6,11 @@ on:
     branches: [ main ]
 
 env:
+  ISAAC_OPENROUTER_API_KEY: openrouter_api_key
+  ISAAC_POSTMARK_API_KEY: postmark_api_key
+  ISAAC_SENDER_ADDRESS: isaac@example.com
   RAILS_ENV: test
   SECRET_KEY_BASE: secret_key_base
-  OPENROUTER_API_KEY: openrouter_api_key
-  SMTP_ADDRESS: smtp.example.com
-  SMTP_DOMAIN: isaac.example.com
-  SMTP_USER_NAME: ai@isaac.example.com
-  SMTP_PASSWORD: smtp_password
 
 jobs:
   scan_ruby:

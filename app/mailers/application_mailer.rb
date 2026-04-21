@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  default from: Environ["SMTP_USER_NAME"]
+  default from: Environ["ISAAC_SENDER_ADDRESS"]
 
   layout "mailer"
 end
