@@ -7,8 +7,7 @@ class ReplyToMailer < ApplicationMailer
     mail(
       to: to,
       subject: subject,
-      in_reply_to: message_id,
-      references: message_id
+      in_reply_to: message_id
     )
   end
 end

@@ -2,6 +2,8 @@
 
 class AssistantAgent < RubyLLM::Agent
   chat_model Chat
-  tools ReplyToTool
-  instructions
+  model "google/gemini-2.5-flash-lite"
+
+  inputs :forwarded_message
+  instructions name: -> { chat.user.first_name }
 end

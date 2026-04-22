@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_17_100415) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_22_101439) do
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "message_checksum", null: false
@@ -52,7 +52,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_17_100415) do
     t.datetime "created_at", null: false
     t.integer "model_id"
     t.datetime "updated_at", null: false
+    t.integer "user_id"
     t.index ["model_id"], name: "index_chats_on_model_id"
+    t.index ["user_id"], name: "index_chats_on_user_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -122,6 +124,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_17_100415) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "chats", "models"
+  add_foreign_key "chats", "users"
   add_foreign_key "messages", "chats"
   add_foreign_key "messages", "models"
   add_foreign_key "messages", "tool_calls"

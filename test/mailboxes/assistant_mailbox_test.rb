@@ -20,14 +20,38 @@ class AssistantMailboxTest < ActiveSupport::TestCase
     mailbox = AssistantMailbox.new(inbound_email)
 
     # Mock AssistantAgent instance and class
+    agent_response_mock = Minitest::Mock.new
+    agent_response_mock.expect(:content, "result", [])
+
     agent_instance_mock = Minitest::Mock.new
-    agent_instance_mock.expect(:ask, nil, [/Test email body/])
+    agent_instance_mock.expect(:ask, agent_response_mock, [/Test email body/])
 
-    AssistantAgent.stub :new, agent_instance_mock do
-      mailbox.process
+    agent_mock = Minitest::Mock.new
+    agent_mock.expect(:create!, agent_instance_mock, [], user: @user, forwarded_message: nil)
 
-      assert_mock(agent_instance_mock)
+    mailer_mock = Minitest::Mock.new
+    mailer_mock.expect(:deliver_later, nil, [])
+
+    reply_to_mailer_mock = Minitest::Mock.new
+    reply_to_mailer_mock.expect(
+      :threaded_email, mailer_mock, [],
+      to: @user.email,
+      subject: "Re: Test",
+      body: "result",
+      message_id: mail_message.message_id
+    )
+
+    stub_const(Object, :AssistantAgent, agent_mock) do
+      stub_const(Object, :ReplyToMailer, reply_to_mailer_mock) do
+        mailbox.process
+      end
     end
+
+    assert_mock agent_mock
+    assert_mock agent_instance_mock
+    assert_mock agent_response_mock
+    assert_mock reply_to_mailer_mock
+    assert_mock mailer_mock
   end
 
   test "logs warning and returns for unknown sender" do
