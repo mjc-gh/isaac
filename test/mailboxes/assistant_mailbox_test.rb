@@ -20,8 +20,11 @@ class AssistantMailboxTest < ActiveSupport::TestCase
     mailbox = AssistantMailbox.new(inbound_email)
 
     # Mock AssistantAgent instance and class
+    agent_response_mock = Minitest::Mock.new
+    agent_response_mock.expect(:content, "result", [])
+
     agent_instance_mock = Minitest::Mock.new
-    agent_instance_mock.expect(:ask, nil, [/Test email body/])
+    agent_instance_mock.expect(:ask, agent_response_mock, [/Test email body/])
 
     AssistantAgent.stub :new, agent_instance_mock do
       mailbox.process

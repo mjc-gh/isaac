@@ -2,13 +2,18 @@
 
 class AssistantMailbox < ApplicationMailbox
   def process
-    user = User.find_by(email: mail.from.first&.downcase)
+    email = mail.from.first&.downcase
+    user = User.find_by!(email:)
 
-    unless user
-      Rails.logger.warn("Email from unknown sender: #{mail.from.first}")
-      return
-    end
+    response = AssistantAgent.new.ask(mail.body.decoded)
 
-    AssistantAgent.new.ask(mail.body.decoded)
+    ReplyToMailer.threaded_email(
+      to: email,
+      subject: "Re: #{mail.subject}",
+      body: response.content,
+      in_reply_to: mail.message_id,
+    ).deliver_later
+  rescue ActiveRecord::RecordNotFound
+    Rails.logger.warn("Email from unknown sender: #{email}")
   end
 end
