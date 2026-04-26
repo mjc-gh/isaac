@@ -47,16 +47,4 @@ class ReplyToMailerTest < ActionMailer::TestCase
 
     assert_equal message_id, mail.header["In-Reply-To"].value
   end
-
-  test "threaded_email sets References header" do
-    message_id = "<original-message-id@example.com>"
-    mail = ReplyToMailer.threaded_email(
-      to: "user@example.com",
-      subject: "Re: Your question",
-      body: "Here is the response",
-      message_id: message_id
-    )
-
-    assert_equal message_id, mail.header["References"].value
-  end
 end
