@@ -1,0 +1,17 @@
+alice_google:
+  user: alice
+  provider: google
+  scopes:
+    - email
+    - profile
+  access_token: google_access_token_alice
+  refresh_token: google_refresh_token_alice
+
+bob_github:
+  user: bob
+  provider: github
+  scopes:
+    - repo
+    - user
+  access_token: github_access_token_bob
+  refresh_token: github_refresh_token_bob

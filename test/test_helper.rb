@@ -10,6 +10,7 @@ if ENV["COVERAGE"].present?
 
   SimpleCov.start(:rails) do
     minimum_coverage 100
+    enable_coverage :branch
 
     add_filter "vendor"
     add_filter "test"

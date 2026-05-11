@@ -4,6 +4,7 @@ class User < ApplicationRecord
   include MagicLinkable
 
   has_many :user_aliases, dependent: :destroy
+  has_many :auth_tokens, dependent: :destroy
 
   normalizes :email, with: ->(email) { email.downcase }
 
