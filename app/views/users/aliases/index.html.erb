@@ -1,0 +1,31 @@
+<div class="container">
+  <h1>Manage Aliases</h1>
+
+  <p><%= link_to "Add new alias", new_users_alias_path, class: "btn btn-primary" %></p>
+
+  <% if @aliases.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @aliases.each do |alias_record| %>
+          <tr>
+            <td><%= alias_record.email %></td>
+            <td>
+              <%= link_to "Edit", edit_users_alias_path(alias_record), class: "btn btn-sm btn-warning" %>
+              <%= button_to "Delete", users_alias_path(alias_record), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>You don't have any aliases yet.</p>
+  <% end %>
+
+  <p><%= link_to "Back to dashboard", dashboards_path %></p>
+</div>

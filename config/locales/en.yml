@@ -35,6 +35,10 @@ en:
     signed_in: "You have been signed in successfully."
     signed_out: "You have been signed out."
     unauthenticated: "Please sign in to continue."
+  aliases:
+    created: "Alias created successfully."
+    updated: "Alias updated successfully."
+    destroyed: "Alias removed successfully."
   user_mailer:
     login:
       subject: "Your sign in link"

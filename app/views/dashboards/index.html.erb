@@ -1,6 +1,8 @@
 <div class="dashboard">
   <h1>Dashboard</h1>
   <p>Welcome, <%= current_user.email %>!</p>
+
+  <p><%= link_to "Manage Aliases", users_aliases_path %></p>
   
   <%= button_to "Logout", users_session_path(current_user), method: :delete %>
 </div>

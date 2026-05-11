@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
@@ -9,6 +11,7 @@ Rails.application.routes.draw do
     resources :sessions, only: [:new, :create, :destroy] do
       collection { get :verify }
     end
+    resources :aliases
   end
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
