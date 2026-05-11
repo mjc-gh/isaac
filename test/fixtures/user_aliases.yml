@@ -1,0 +1,11 @@
+alice_alias_1:
+  user: alice
+  email: alice.smith@example.com
+
+alice_alias_2:
+  user: alice
+  email: alice.work@example.com
+
+bob_alias:
+  user: bob
+  email: bob.alternate@example.com

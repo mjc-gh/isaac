@@ -54,6 +54,23 @@ class AssistantMailboxTest < ActiveSupport::TestCase
     assert_mock mailer_mock
   end
 
+  test "calls assistant agent for user found via alias" do
+    alias_email = user_aliases(:alice_alias_1).email
+    mail_message = Mail.new(
+      to: "assistant@example.com",
+      from: alias_email,
+      subject: "Test from Alias",
+      body: "Test email from alias"
+    )
+
+    inbound_email = ActionMailbox::InboundEmail.create_and_extract_message_id!(mail_message.to_s)
+    mailbox = AssistantMailbox.new(inbound_email)
+
+    # Verify that find_user_by_email can locate the user via alias
+    user_found = mailbox.send(:find_user_by_email, alias_email)
+    assert_equal @user, user_found
+  end
+
   test "logs warning and returns for unknown sender" do
     unknown_email = "unknown@example.com"
     mail_message = Mail.new(

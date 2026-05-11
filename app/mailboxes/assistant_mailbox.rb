@@ -3,7 +3,7 @@
 class AssistantMailbox < ApplicationMailbox
   def process
     email = mail.from.first&.downcase
-    user = User.find_by!(email:)
+    user = find_user_by_email(email)
 
     chat = AssistantAgent.create!(user:, forwarded_message: nil)
     response = chat.ask(mail.body.decoded)
@@ -16,5 +16,11 @@ class AssistantMailbox < ApplicationMailbox
     ).deliver_later
   rescue ActiveRecord::RecordNotFound
     Rails.logger.warn("Email from unknown sender: #{email}")
+  end
+
+  private
+
+  def find_user_by_email(email)
+    User.find_by(email:) || UserAlias.find_by(email:)&.user || raise(ActiveRecord::RecordNotFound)
   end
 end

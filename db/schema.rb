@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_22_101439) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_11_100414) do
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "message_checksum", null: false
@@ -112,6 +112,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_101439) do
     t.index ["tool_call_id"], name: "index_tool_calls_on_tool_call_id", unique: true
   end
 
+  create_table "user_aliases", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "email", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["email"], name: "index_user_aliases_on_email", unique: true
+    t.index ["user_id"], name: "index_user_aliases_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "email", null: false
@@ -129,4 +138,5 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_22_101439) do
   add_foreign_key "messages", "models"
   add_foreign_key "messages", "tool_calls"
   add_foreign_key "tool_calls", "messages"
+  add_foreign_key "user_aliases", "users"
 end
