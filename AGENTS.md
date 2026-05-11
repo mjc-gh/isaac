@@ -47,6 +47,11 @@ Rails, Action Mailbox, and RubyLLM.
   - Use `assert_mock(mock)` to verify expectations
   - Use `Constant.stub :method, mock do ... end` to override a single method for the duration of the block
 
+**Integration Tests**:
+- Prefer `assert_select`; never assert against `response.body` for HTML or Turbo Stream actions
+- Never use `assert_template`
+
 ## References
 
-- **Testing Stack**: Minitest, simplecov (with 100% coverage required), RuboCop-Rails, Brakeman
+- **Testing Stack**: Minitest, simplecov (with 100% coverage required), RuboCop-Rails, Brakeman\
+- **Turbo**: See `doc/TURBO.md` for notes on implementing controllers and views with Turbo
