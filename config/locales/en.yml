@@ -29,3 +29,12 @@
 
 en:
   hello: "Hello world"
+  sessions:
+    magic_link_sent: "If an account exists with that email, you will receive a sign in link shortly."
+    invalid_token: "This sign in link is invalid or has expired."
+    signed_in: "You have been signed in successfully."
+    signed_out: "You have been signed out."
+    unauthenticated: "Please sign in to continue."
+  user_mailer:
+    login:
+      subject: "Your sign in link"

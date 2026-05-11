@@ -3,6 +3,12 @@ Rails.application.routes.draw do
 
   root "home#index"
 
+  namespace :users do
+    resources :sessions, only: [:new, :create, :destroy] do
+      collection { get :verify }
+    end
+  end
+
   mount MissionControl::Jobs::Engine, at: "/jobs"
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end
