@@ -19,4 +19,11 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
     assert user.errors[:email].any?
   end
+
+  test "blank email bypasses alias check validation" do
+    user = User.new(email: "", first_name: "Test", last_name: "User")
+    assert_not user.valid?
+    # Should fail on email presence/format, not alias check
+    assert user.errors[:email].any?
+  end
 end

@@ -2,7 +2,7 @@
 
 class AssistantMailbox < ApplicationMailbox
   def process
-    email = mail.from.first&.downcase
+    email = mail.from_address.try(:address)
     user = find_user_by_email(email)
 
     chat = AssistantAgent.create!(user:, forwarded_message: nil)
