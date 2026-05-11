@@ -34,12 +34,19 @@ module ActiveSupport
   class TestCase
     include ActionMailer::TestHelper
 
+    # SimpleCov set up for parallel tests
+    parallelize_setup do |_worker|
+      SimpleCov.command_name "Job::#{Process.pid}" if const_defined?(:SimpleCov)
+    end
+
+    parallelize_teardown do |_worker|
+      SimpleCov.result if const_defined?(:SimpleCov)
+    end
+
     # Run tests in parallel with specified workers
     parallelize(workers: :number_of_processors)
 
     # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
     fixtures :all
-
-    # Add more helper methods to be used by all tests here...
   end
 end
