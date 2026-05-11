@@ -2,6 +2,10 @@
 
 class HomeController < ApplicationController
   def index
-    render status: 404, plain: "Not Found"
+    if user_signed_in?
+      redirect_to dashboards_url
+    else
+      redirect_to new_users_session_path
+    end
   end
 end

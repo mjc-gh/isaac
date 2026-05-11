@@ -3,6 +3,8 @@ Rails.application.routes.draw do
 
   root "home#index"
 
+  resources :dashboards, only: [:index]
+
   namespace :users do
     resources :sessions, only: [:new, :create, :destroy] do
       collection { get :verify }
