@@ -53,5 +53,6 @@ Rails, Action Mailbox, and RubyLLM.
 
 ## References
 
-- **Testing Stack**: Minitest, simplecov (with 100% coverage required), RuboCop-Rails, Brakeman\
+- **Testing Stack**: Minitest, simplecov (with 100% coverage required), RuboCop-Rails, Brakeman
+- **OAuth**: See `doc/OAUTH.md` for OmniAuth patterns, testing strategies, and encrypted credential storage
 - **Turbo**: See `doc/TURBO.md` for notes on implementing controllers and views with Turbo
