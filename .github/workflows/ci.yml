@@ -6,6 +6,8 @@ on:
     branches: [ main ]
 
 env:
+  ISAAC_GOOGLE_CLIENT_ID: client_id
+  ISAAC_GOOGLE_CLIENT_SECRET: client_secret
   ISAAC_OPENROUTER_API_KEY: openrouter_api_key
   ISAAC_POSTMARK_API_KEY: postmark_api_key
   ISAAC_SENDER_ADDRESS: isaac@example.com
@@ -97,7 +99,10 @@ jobs:
           bundler-cache: true
 
       - name: Run tests
-        run: COVERAGE=1 bin/rails db:test:prepare test
+        env:
+          RAILS_ENV: test
+          COVERAGE: 1
+        run: bin/rails db:test:prepare test
 
   build_and_push_docker:
     runs-on: ubuntu-latest
