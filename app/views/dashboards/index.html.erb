@@ -3,6 +3,8 @@
   <p>Welcome, <%= current_user.email %>!</p>
 
   <p><%= link_to "Manage Aliases", users_aliases_path %></p>
-  
+  <p><%= link_to "Connected Accounts (#{@auth_tokens_count})", users_auth_tokens_path %></p>
+
   <%= button_to "Logout", users_session_path(current_user), method: :delete %>
 </div>
+

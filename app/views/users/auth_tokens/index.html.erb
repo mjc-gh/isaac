@@ -1,0 +1,32 @@
+<div class="container">
+  <h1>Connected Accounts</h1>
+
+  <p><%= button_to "Connect Google Calendar", "/auth/google_oauth2", class: "btn btn-primary", data: { turbo: false } %></p>
+
+  <% if @auth_tokens.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Provider</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @auth_tokens.each do |token| %>
+          <tr>
+            <td><%= token.provider.titleize %></td>
+            <td>Connected</td>
+            <td>
+              <%= button_to "Disconnect", users_auth_token_path(token), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>You don't have any connected accounts yet.</p>
+  <% end %>
+
+  <p><%= link_to "Back to dashboard", dashboards_path %></p>
+</div>

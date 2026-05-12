@@ -22,4 +22,15 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "p", text: /#{@user.email}/
   end
+
+  test "should display connected accounts link with count when authenticated" do
+    token = @user.generate_magic_link_token(for: :session)
+    get verify_users_sessions_url(token: token)
+
+    get dashboards_url
+
+    assert_response :success
+    assert_select "a", text: /Connected Accounts \(1\)/
+    assert_select "a[href=?]", users_auth_tokens_path
+  end
 end

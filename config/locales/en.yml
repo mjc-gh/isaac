@@ -39,6 +39,10 @@ en:
     created: "Alias created successfully."
     updated: "Alias updated successfully."
     destroyed: "Alias removed successfully."
+  auth_tokens:
+    connected: "Account connected successfully."
+    disconnected: "Account disconnected successfully."
+    failure: "Failed to connect account."
   user_mailer:
     login:
       subject: "Your sign in link"

@@ -14,6 +14,10 @@ module Isaac
 
     config.secret_key_base = Environ["SECRET_KEY_BASE"]
 
+     config.active_record.encryption.primary_key = Environ["ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY"]
+     config.active_record.encryption.deterministic_key = Environ["ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY"]
+     config.active_record.encryption.key_derivation_salt = Environ["ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT"]
+
     # Disable image processing
     config.active_storage.variant_processor = :disabled
   end
