@@ -5,7 +5,7 @@ model: openrouter/anthropic/claude-haiku-4.5
 
 Here is the GitHub issue to implement:
 
-`gh api repos/mjc-gh/isaac/issues/$1 | jq -r '"### \(.title)\n\(.body)"'`
+`gh api repos/mjc-gh/isaac/issues/$1 | jq -r '"# \(.title)\n\(.body)"'`
 
 **Instructions:**
 
