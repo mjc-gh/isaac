@@ -70,4 +70,12 @@ class GoogleCalendarService
       primary: calendar.primary
     }
   end
+
+  def oauth_client_id
+    Environ["ISAAC_GOOGLE_CLIENT_ID"]
+  end
+
+  def oauth_client_secret
+    Environ["ISAAC_GOOGLE_CLIENT_SECRET"]
+  end
 end

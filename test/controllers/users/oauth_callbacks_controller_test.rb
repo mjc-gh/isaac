@@ -143,4 +143,29 @@ class Users::OauthCallbacksControllerTest < ActionDispatch::IntegrationTest
     # Should be approximately 1 year from now
     assert (auth_token.expires_at - 1.year.from_now).abs < 60 # within 60 seconds
   end
+
+  test "create with expires_at in credentials uses provided expiration" do
+    user = users(:charlie)
+    post users_sessions_url, params: { email: user.email }
+    token = user.generate_magic_link_token(for: :session)
+    get verify_users_sessions_url(token: token)
+
+    expires_at_value = (Time.now + 2.hours).to_i
+    OmniAuth.config.mock_auth[:google_oauth2] = OmniAuth::AuthHash.new(
+      provider: "google_oauth2",
+      credentials: {
+        token: "test_access_token",
+        refresh_token: "test_refresh_token",
+        expires_at: expires_at_value
+      }
+    )
+
+    get "/auth/google_oauth2/callback"
+
+    assert_redirected_to users_auth_tokens_url
+    auth_token = user.auth_tokens.find_by(provider: "google_oauth2")
+    assert auth_token.expires_at.present?
+    # Should match the provided expires_at value
+    assert_equal Time.at(expires_at_value), auth_token.expires_at
+  end
 end
