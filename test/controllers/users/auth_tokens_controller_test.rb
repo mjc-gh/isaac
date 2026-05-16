@@ -26,7 +26,7 @@ class Users::AuthTokensControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_select "h1", "Connected Accounts"
     assert_select "table tbody tr", count: 1
-    assert_select "table tbody tr td", text: "Google"
+    assert_select "table tbody tr td", text: "Google Oauth2"
   end
 
   test "index shows message when no connected accounts" do

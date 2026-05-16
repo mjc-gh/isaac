@@ -1,11 +1,12 @@
 alice_google:
   user: alice
-  provider: google
+  provider: google_oauth2
   scopes:
     - email
     - profile
   access_token: google_access_token_alice
   refresh_token: google_refresh_token_alice
+  expires_at: <%= 1.day.from_now %>
 
 bob_github:
   user: bob
@@ -15,3 +16,4 @@ bob_github:
     - user
   access_token: github_access_token_bob
   refresh_token: github_refresh_token_bob
+  expires_at: <%= 1.day.from_now %>

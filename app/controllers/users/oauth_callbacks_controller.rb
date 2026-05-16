@@ -14,6 +14,10 @@ module Users
       auth_token.refresh_token = auth_hash.dig("credentials", "refresh_token")
       auth_token.scopes = ["https://www.googleapis.com/auth/calendar"]
 
+      # Set expires_at if provided in credentials, otherwise set a default far future date
+      expires_at_value = auth_hash.dig("credentials", "expires_at")
+      auth_token.expires_at = expires_at_value ? Time.at(expires_at_value) : 1.year.from_now
+
       if auth_token.save
         redirect_to users_auth_tokens_url, notice: I18n.t("auth_tokens.connected")
       else

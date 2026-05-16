@@ -15,9 +15,12 @@
       <tbody>
         <% @auth_tokens.each do |token| %>
           <tr>
-            <td><%= token.provider.titleize %></td>
+            <td><%= t token.provider, scope: "omniauth.providers" %></td>
             <td>Connected</td>
             <td>
+              <% if token.provider == "google_oauth2" %>
+                <%= link_to "Preferences", edit_users_calendar_preferences_path, class: "btn btn-sm btn-info" %>
+              <% end %>
               <%= button_to "Disconnect", users_auth_token_path(token), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
             </td>
           </tr>

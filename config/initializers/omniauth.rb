@@ -13,5 +13,6 @@ unless ENV["SKIP_OMNIAUTH"].present?
   end
 end
 
+OmniAuth.config.request_validation_phase = OmniAuth::AuthenticityTokenProtection.new(key: :_csrf_token)
 OmniAuth.config.allowed_request_methods = [:post]
 OmniAuth.config.silence_get_warning = true

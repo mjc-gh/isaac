@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>Calendar Preferences</h1>
+
+  <% if @calendars.any? %>
+    <%= form_with url: users_calendar_preferences_path, method: :patch, local: true do |f| %>
+      <div class="form-group">
+        <label for="calendar_id">Select your primary calendar:</label>
+        <%= f.select :calendar_id, options_for_select(@calendars.map { |cal| [cal[:summary], cal[:id]] }, @selected_calendar_id), {}, class: "form-control" %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.submit "Save", class: "btn btn-primary" %>
+        <%= link_to "Cancel", users_auth_tokens_path, class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  <% else %>
+    <p><%= t("calendar_preferences.no_calendars") %></p>
+    <p><%= link_to "Back", users_auth_tokens_path %></p>
+  <% end %>
+</div>

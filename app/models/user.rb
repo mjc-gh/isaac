@@ -16,6 +16,14 @@ class User < ApplicationRecord
   validates :first_name, length: { minimum: 2, maximum: 50 }, allow_blank: true
   validates :last_name, length: { minimum: 2, maximum: 50 }, allow_blank: true
 
+  def primary_calendar_id
+    settings["primary_calendar_id"]
+  end
+
+  def primary_calendar_id=(value)
+    settings["primary_calendar_id"] = value
+  end
+
   private
 
   def email_not_alias_email

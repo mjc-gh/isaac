@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_11_184907) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_14_002316) do
   create_table "action_mailbox_inbound_emails", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "message_checksum", null: false
@@ -51,6 +51,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_184907) do
   create_table "auth_tokens", force: :cascade do |t|
     t.string "access_token", null: false
     t.datetime "created_at", null: false
+    t.datetime "expires_at", null: false
     t.string "provider", null: false
     t.string "refresh_token"
     t.json "scopes", default: []
@@ -138,6 +139,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_11_184907) do
     t.string "email", null: false
     t.string "first_name"
     t.string "last_name"
+    t.json "settings", default: {}, null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end

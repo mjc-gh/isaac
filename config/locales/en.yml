@@ -28,7 +28,9 @@
 #       enabled: "ON"
 
 en:
-  hello: "Hello world"
+  omniauth:
+    providers:
+      google_oauth2: "Google Oauth2"
   sessions:
     magic_link_sent: "If an account exists with that email, you will receive a sign in link shortly."
     invalid_token: "This sign in link is invalid or has expired."
@@ -43,6 +45,12 @@ en:
     connected: "Account connected successfully."
     disconnected: "Account disconnected successfully."
     failure: "Failed to connect account."
+  calendar_preferences:
+    updated: "Calendar preference saved successfully."
+    no_calendars: "No calendars found in your Google account."
+    api_error: "Unable to fetch calendars. Please try again."
+    no_google_token: "Please connect your Google account first."
+    error: "Failed to save calendar preference."
   user_mailer:
     login:
       subject: "Your sign in link"

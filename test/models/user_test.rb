@@ -26,4 +26,15 @@ class UserTest < ActiveSupport::TestCase
     # Should fail on email presence/format, not alias check
     assert user.errors[:email].any?
   end
+
+  test "primary_calendar_id accessor" do
+    user = users(:alice)
+    user.primary_calendar_id = "calendar_123"
+    assert_equal "calendar_123", user.primary_calendar_id
+  end
+
+  test "primary_calendar_id returns nil when not set" do
+    user = User.create!(email: "test@example.com", first_name: "Test", last_name: "User")
+    assert_nil user.primary_calendar_id
+  end
 end
