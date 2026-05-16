@@ -9,7 +9,16 @@ is my personal digital assistant built with Rails, Action Mailbox, and
 1. Copy `env.example.sh` to `.env.sh` and fill in values as needed
 2. Run `source .env.sh` to load env values
 
-## Deploying
+# Deploying
+
+## Prerequisites
+
+- A postmark account, for inbound and outbound emails
+- A Google OAuth app for Calendar access
+  - If you are using G-Suite, enable the Calendar API service for your
+    tenant
+
+## Steps
 
 1. Create a `.kamal/secrets` file with the following contents:
   ```
@@ -18,6 +27,8 @@ is my personal digital assistant built with Rails, Action Mailbox, and
 
   SECRET_KEY_BASE=[random value]
 
+  ISAAC_GOOGLE_CLIENT_ID=[google oauth app id]
+  ISAAC_GOOGLE_CLIENT_SECRET=[google oauth secret]
   ISAAC_MISSION_CONTROL_PASSWORD=[password for mission control; optional]
   ISAAC_OPENROUTER_API_KEY=[openroute API key]
   ISAAC_POSTMARK_API_KEY=[postmark API key]
