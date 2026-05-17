@@ -291,4 +291,3 @@ class GoogleCalendarServiceTest < ActiveSupport::TestCase
     end
   end
 end
-
