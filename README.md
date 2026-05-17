@@ -1,4 +1,4 @@
-# README
+# ISAAC [![CI](https://github.com/mjc-gh/isaac/actions/workflows/ci.yml/badge.svg)](https://github.com/mjc-gh/isaac/actions/workflows/ci.yml) ![GitHub Tag](https://img.shields.io/github/v/tag/mjc-gh/isaac?label=latest)
 
 The "Intelligent System for Agent Assistant Communications" (I.S.A.A.C)
 is my personal digital assistant built with Rails, Action Mailbox, and
