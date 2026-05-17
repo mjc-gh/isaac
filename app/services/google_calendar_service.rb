@@ -8,8 +8,39 @@ class GoogleCalendarService
   def list_calendars
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = auth_client
+
     response = service.list_calendar_lists
-    response.items.map { |calendar| calendar_hash(calendar) }
+    response.items.map { self.class.calendar_hash(it) }
+  end
+
+  def list_events(calendar_id, start_time:, stop_time:)
+    service = Google::Apis::CalendarV3::CalendarService.new
+    service.authorization = auth_client
+
+    response = service.list_events(calendar_id, time_min: start_time.iso8601, time_max: stop_time.iso8601)
+    response.items.map { self.class.event_hash(it) }
+  end
+
+  def self.calendar_hash(calendar)
+    {
+      id: calendar.id,
+      summary: calendar.summary,
+      primary: calendar.primary
+    }
+  end
+
+  def self.event_hash(event)
+    {
+      id: event.id,
+      summary: event.summary,
+      description: event.description,
+      start: event.start&.date_time,
+      stop: event.end&.date_time,
+      status: event.status,
+      location: event.location,
+      created: event.created,
+      link: event.html_link
+    }
   end
 
   private
@@ -32,9 +63,10 @@ class GoogleCalendarService
     token = Signet::OAuth2::Client.new(access_token: auth_token.access_token)
 
     # Check if token is expired
-    if token_expired?(token)
+    if auth_token.expired?
       # Try to refresh the token if refresh_token is available
       raise GoogleCalendarTokenError, "Access token expired and no refresh token available" if auth_token.refresh_token.blank?
+
       return refresh_and_get_client(auth_token)
     end
 
@@ -61,14 +93,6 @@ class GoogleCalendarService
     token
   rescue StandardError => e
     raise GoogleCalendarTokenError, "Failed to refresh access token: #{e.message}"
-  end
-
-  def calendar_hash(calendar)
-    {
-      id: calendar.id,
-      summary: calendar.summary,
-      primary: calendar.primary
-    }
   end
 
   def oauth_client_id

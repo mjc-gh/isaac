@@ -7,4 +7,10 @@ class AuthToken < ApplicationRecord
 
   validates :provider, presence: true, uniqueness: { scope: :user_id }
   validates :access_token, presence: true
+
+  def expired?
+    return true if expires_at.nil?
+
+    Time.current > expires_at
+  end
 end
