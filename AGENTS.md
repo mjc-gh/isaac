@@ -55,3 +55,4 @@ Rails, Action Mailbox, and RubyLLM.
 - **Testing Stack**: Minitest, simplecov (with 100% coverage required), RuboCop-Rails, Brakeman
 - **OAuth**: See `doc/OAUTH.md` for OmniAuth patterns, testing strategies, and encrypted credential storage
 - **Turbo**: See `doc/TURBO.md` for notes on implementing controllers and views with Turbo
+- **RubyLLM Tools**: See `doc/RUBYLLM_TOOLS.md` for patterns on creating and testing agent tools
