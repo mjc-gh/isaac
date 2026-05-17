@@ -24,6 +24,7 @@ class AssistantMailboxTest < ActiveSupport::TestCase
     agent_response_mock.expect(:content, "result", [])
 
     agent_instance_mock = Minitest::Mock.new
+    agent_instance_mock.expect(:with_tool, agent_instance_mock, [GoogleCalendarSearchTool])
     agent_instance_mock.expect(:ask, agent_response_mock, [/Test email body/])
 
     agent_mock = Minitest::Mock.new

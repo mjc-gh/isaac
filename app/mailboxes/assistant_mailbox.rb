@@ -6,6 +6,7 @@ class AssistantMailbox < ApplicationMailbox
     user = find_user_by_email(email)
 
     chat = AssistantAgent.create!(user:, forwarded_message: nil)
+    chat.with_tool(GoogleCalendarSearchTool.new(user))
     response = chat.ask(mail.body.decoded)
 
     ReplyToMailer.threaded_email(
