@@ -1,31 +1,47 @@
-<div class="container">
-  <h1>Manage Aliases</h1>
+<% content_for :title, "Aliases" %>
 
-  <p><%= link_to "Add new alias", new_users_alias_path, class: "btn btn-primary" %></p>
+<main class="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+  <header class="flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center">
+    <div>
+      <%= link_to "Dashboard", dashboards_path, class: "text-sm text-gray-500 hover:text-gray-950" %>
+      <h1 class="mt-1 text-2xl font-semibold text-gray-950">Manage Aliases</h1>
+      <p class="mt-1 text-sm text-gray-500">Email addresses Isaac can recognize as you.</p>
+    </div>
+    <%= link_to "Add alias", new_users_alias_path,
+                class: "shrink-0 rounded-md bg-gray-950 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800" %>
+  </header>
 
   <% if @aliases.any? %>
-    <table>
-      <thead>
-        <tr>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @aliases.each do |alias_record| %>
+    <div class="overflow-x-auto py-5">
+      <table class="min-w-full text-left text-sm">
+        <thead class="border-b border-gray-200 text-xs font-medium uppercase tracking-wide text-gray-500">
           <tr>
-            <td><%= alias_record.email %></td>
-            <td>
-              <%= link_to "Edit", edit_users_alias_path(alias_record), class: "btn btn-sm btn-warning" %>
-              <%= button_to "Delete", users_alias_path(alias_record), method: :delete, data: { confirm: "Are you sure?" }, class: "btn btn-sm btn-danger" %>
-            </td>
+            <th scope="col" class="py-3 pr-6 font-medium">Email</th>
+            <th scope="col" class="py-3 text-right font-medium">Actions</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <% @aliases.each do |alias_record| %>
+            <tr>
+              <td class="py-4 pr-6 font-medium text-gray-950"><%= alias_record.email %></td>
+              <td class="whitespace-nowrap py-4 text-right">
+                <%= link_to "Edit", edit_users_alias_path(alias_record),
+                            class: "text-sm font-medium text-gray-700 hover:text-gray-950" %>
+                <%= button_to "Delete", users_alias_path(alias_record), method: :delete,
+                              data: { turbo_confirm: "Remove this alias?" },
+                              form_class: "ml-4 inline-block",
+                              class: "text-sm font-medium text-red-700 hover:text-red-900" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% else %>
-    <p>You don't have any aliases yet.</p>
+    <div class="py-16 text-center">
+      <p class="text-gray-600">You don't have any aliases yet.</p>
+      <%= link_to "Add your first alias", new_users_alias_path,
+                  class: "mt-4 inline-block rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50" %>
+    </div>
   <% end %>
-
-  <p><%= link_to "Back to dashboard", dashboards_path %></p>
-</div>
+</main>

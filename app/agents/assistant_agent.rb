@@ -14,4 +14,8 @@ class AssistantAgent < RubyLLM::Agent
     chat.with_tool(GoogleCalendarSearchTool.new(user))
     chat
   end
+
+  def self.for_chat(chat, forwarded_message: nil)
+    find(chat.id, forwarded_message:).with_tool(GoogleCalendarSearchTool.new(chat.user))
+  end
 end

@@ -1,10 +1,28 @@
-<div class="dashboard">
-  <h1>Dashboard</h1>
-  <p>Welcome, <%= current_user.email %>!</p>
+<div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+  <header class="border-b border-gray-200 pb-6">
+    <p class="text-sm text-gray-500">Signed in as <%= current_user.email %></p>
+    <h1 class="mt-1 text-2xl font-semibold text-gray-950">Dashboard</h1>
+  </header>
 
-  <p><%= link_to "Manage Aliases", users_aliases_path %></p>
-  <p><%= link_to "Connected Accounts (#{@auth_tokens_count})", users_auth_tokens_path %></p>
+  <section class="py-8" aria-labelledby="chats-heading">
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <h2 id="chats-heading" class="text-lg font-medium text-gray-950">Chats</h2>
+        <p class="mt-1 text-sm text-gray-500">Start a conversation or return to an earlier one.</p>
+      </div>
+      <%= button_to "New chat", chats_path,
+                    class: "rounded-md bg-gray-950 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800" %>
+    </div>
 
-  <%= button_to "Logout", users_session_path(current_user), method: :delete %>
+    <%= link_to "View existing chats", chats_path,
+                class: "mt-5 inline-block text-sm font-medium text-gray-700 underline decoration-gray-300 underline-offset-4 hover:text-gray-950" %>
+  </section>
+
+  <nav class="space-y-3 border-t border-gray-200 py-8" aria-label="Account">
+    <p><%= link_to "Manage Aliases", users_aliases_path, class: "text-sm text-gray-700 hover:text-gray-950" %></p>
+    <p><%= link_to "Connected Accounts (#{@auth_tokens_count})", users_auth_tokens_path, class: "text-sm text-gray-700 hover:text-gray-950" %></p>
+  </nav>
+
+  <%= button_to "Logout", users_session_path(current_user), method: :delete,
+                class: "text-sm text-gray-500 hover:text-gray-950" %>
 </div>
-

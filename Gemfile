@@ -17,6 +17,7 @@ gem "ruby_llm"
 gem "solid_queue"
 gem "sqlite3", ">= 2.1"
 gem "stimulus-rails"
+gem "tailwindcss-rails"
 gem "turbo-rails"
 
 # Deploy

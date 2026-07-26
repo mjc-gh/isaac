@@ -1,12 +1,21 @@
-<div class="container">
-  <h1>Sign in to ISAAC</h1>
+<% content_for :title, "Sign In" %>
 
-  <%= form_with url: users_sessions_path, local: true do |form| %>
-    <div class="form-group">
-      <%= form.label :email %>
-      <%= form.email_field :email, required: true %>
+<main class="mx-auto max-w-md px-4 py-16 sm:px-6 sm:py-24">
+  <header class="border-b border-gray-200 pb-5">
+    <p class="text-sm font-medium uppercase tracking-widest text-gray-400">ISAAC</p>
+    <h1 class="mt-2 text-2xl font-semibold text-gray-950">Sign in to ISAAC</h1>
+    <p class="mt-2 text-sm leading-6 text-gray-500">Enter your email and we'll send you a secure sign-in link.</p>
+  </header>
+
+  <%= form_with url: users_sessions_path, local: true, class: "py-6" do |form| %>
+    <div>
+      <%= form.label :email, class: "block text-sm font-medium text-gray-800" %>
+      <%= form.email_field :email, required: true, autofocus: true,
+                           autocomplete: "email", placeholder: "you@example.com",
+                           class: "mt-2 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-950 placeholder:text-gray-400 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500" %>
     </div>
 
-    <%= form.submit "Send me a sign in link" %>
+    <%= form.submit "Send me a sign in link",
+                    class: "mt-6 w-full rounded-md bg-gray-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800" %>
   <% end %>
-</div>
+</main>

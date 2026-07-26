@@ -1,0 +1,10 @@
+<%= form_with model: [chat, message], id: "new_message", class: "flex items-end gap-2" do |form| %>
+  <div class="flex-1">
+    <%= form.label :content, "Message", class: "sr-only" %>
+    <%= form.text_area :content, rows: 2, required: true, autofocus: true,
+                       placeholder: "Message Isaac...",
+                       class: "block w-full resize-none rounded-md border border-gray-300 px-3 py-2 text-gray-950 placeholder:text-gray-400 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500" %>
+  </div>
+  <%= form.submit "Send",
+                  class: "rounded-md bg-gray-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-gray-800" %>
+<% end %>

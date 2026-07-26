@@ -56,3 +56,4 @@ Rails, Action Mailbox, and RubyLLM.
 - **OAuth**: See `doc/OAUTH.md` for OmniAuth patterns, testing strategies, and encrypted credential storage
 - **Turbo**: See `doc/TURBO.md` for notes on implementing controllers and views with Turbo
 - **RubyLLM Tools**: See `doc/RUBYLLM_TOOLS.md` for patterns on creating and testing agent tools
+- **Design System**: See `doc/DESIGN_SYSTEM.md` for Tailwind layout, typography, forms, actions, feedback, and accessibility conventions

@@ -1,0 +1,5 @@
+<% user ||= local_assigns[:message] %>
+<article id="message_<%= user.id %>" class="ml-auto max-w-[85%] sm:max-w-[75%]">
+  <div id="message_<%= user.id %>_content" class="whitespace-pre-wrap rounded-2xl rounded-br-sm bg-gray-950 px-4 py-3 text-sm leading-6 text-white"><%= user.content %></div>
+  <p class="mt-1 text-right text-xs text-gray-400"><%= user.created_at.strftime("%l:%M %p") %></p>
+</article>

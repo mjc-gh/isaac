@@ -1,20 +1,33 @@
-<div class="container">
-  <h1>Calendar Preferences</h1>
+<% content_for :title, "Calendar Preferences" %>
+
+<main class="mx-auto max-w-xl px-4 py-8 sm:px-6">
+  <header class="border-b border-gray-200 pb-5">
+    <%= link_to "Connected Accounts", users_auth_tokens_path, class: "text-sm text-gray-500 hover:text-gray-950" %>
+    <h1 class="mt-1 text-2xl font-semibold text-gray-950">Calendar Preferences</h1>
+    <p class="mt-2 text-sm leading-6 text-gray-500">Choose the calendar Isaac should use by default.</p>
+  </header>
 
   <% if @calendars.any? %>
-    <%= form_with url: users_calendar_preferences_path, method: :patch, local: true do |f| %>
-      <div class="form-group">
-        <label for="calendar_id">Select your primary calendar:</label>
-        <%= f.select :calendar_id, options_for_select(@calendars.map { |cal| [cal[:summary], cal[:id]] }, @selected_calendar_id), {}, class: "form-control" %>
+    <%= form_with url: users_calendar_preferences_path, method: :patch, local: true, class: "py-6" do |form| %>
+      <div>
+        <%= form.label :calendar_id, "Primary calendar", class: "block text-sm font-medium text-gray-800" %>
+        <%= form.select :calendar_id,
+                        options_for_select(@calendars.map { |calendar| [calendar[:summary], calendar[:id]] }, @selected_calendar_id),
+                        {},
+                        class: "mt-2 block w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-gray-950 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500" %>
+        <p class="mt-2 text-sm text-gray-500">New calendar events will use this calendar unless you specify another.</p>
       </div>
 
-      <div class="form-actions">
-        <%= f.submit "Save", class: "btn btn-primary" %>
-        <%= link_to "Cancel", users_auth_tokens_path, class: "btn btn-secondary" %>
+      <div class="mt-6 flex items-center gap-4">
+        <%= form.submit "Save", class: "rounded-md bg-gray-950 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800" %>
+        <%= link_to "Cancel", users_auth_tokens_path, class: "text-sm font-medium text-gray-600 hover:text-gray-950" %>
       </div>
     <% end %>
   <% else %>
-    <p><%= t("calendar_preferences.no_calendars") %></p>
-    <p><%= link_to "Back", users_auth_tokens_path %></p>
+    <div class="py-16 text-center">
+      <p class="text-gray-600"><%= t("calendar_preferences.no_calendars") %></p>
+      <%= link_to "Back to connected accounts", users_auth_tokens_path,
+                  class: "mt-4 inline-block text-sm font-medium text-gray-700 underline decoration-gray-300 underline-offset-4 hover:text-gray-950" %>
+    </div>
   <% end %>
-</div>
+</main>

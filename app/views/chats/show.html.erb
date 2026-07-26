@@ -1,0 +1,29 @@
+<% content_for :title, "Chat" %>
+<%= turbo_stream_from "chat_#{@chat.id}" %>
+
+<main class="mx-auto flex min-h-dvh max-w-3xl flex-col px-4 sm:px-6">
+  <header class="flex items-center justify-between border-b border-gray-200 py-4">
+    <div>
+      <%= link_to "All chats", chats_path, class: "text-sm text-gray-500 hover:text-gray-950" %>
+      <h1 class="text-lg font-semibold text-gray-950">Conversation</h1>
+    </div>
+    <%= button_to "New chat", chats_path,
+                  class: "rounded-md border border-gray-300 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+  </header>
+
+  <div id="messages" class="flex-1 space-y-5 py-8" aria-live="polite">
+    <% @chat.messages.where.not(id: nil).order(:created_at).each do |message| %>
+      <%= render message %>
+    <% end %>
+
+    <% unless @chat.messages.where.not(id: nil).exists? %>
+      <div id="empty_chat" class="py-16 text-center text-sm text-gray-500">
+        Send a message to start the conversation.
+      </div>
+    <% end %>
+  </div>
+
+  <div class="sticky bottom-0 border-t border-gray-200 bg-white py-4">
+    <%= render "messages/form", chat: @chat, message: @message %>
+  </div>
+</main>

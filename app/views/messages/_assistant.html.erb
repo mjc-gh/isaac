@@ -1,0 +1,6 @@
+<% assistant ||= local_assigns[:message] %>
+<article id="message_<%= assistant.id %>" class="max-w-[90%] sm:max-w-[80%]">
+  <p class="mb-1 text-xs font-medium text-gray-500">Isaac</p>
+  <div id="message_<%= assistant.id %>_content" class="whitespace-pre-wrap text-sm leading-6 text-gray-800"><%= assistant.content %></div>
+  <p class="mt-1 text-xs text-gray-400"><%= assistant.created_at.strftime("%l:%M %p") %></p>
+</article>

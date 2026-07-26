@@ -23,13 +23,21 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="min-h-dvh bg-white text-gray-950 antialiased">
     <%- if flash[:notice] -%>
-      <div><%= flash[:notice] %></div>
+      <div class="mx-auto mt-4 max-w-3xl px-4 sm:px-6" data-turbo-temporary>
+        <div class="rounded-md border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800" role="status">
+          <%= flash[:notice] %>
+        </div>
+      </div>
     <%- end -%>
 
     <%- if flash[:alert] -%>
-      <div><%= flash[:alert] %></div>
+      <div class="mx-auto mt-4 max-w-3xl px-4 sm:px-6" data-turbo-temporary>
+        <div class="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert">
+          <%= flash[:alert] %>
+        </div>
+      </div>
     <%- end -%>
 
     <%= yield %>

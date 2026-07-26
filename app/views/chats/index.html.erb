@@ -1,0 +1,32 @@
+<% content_for :title, "Chats" %>
+
+<main class="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+  <header class="flex items-center justify-between gap-4 border-b border-gray-200 pb-5">
+    <div>
+      <%= link_to "Dashboard", dashboards_path, class: "text-sm text-gray-500 hover:text-gray-950" %>
+      <h1 class="mt-1 text-2xl font-semibold text-gray-950">Chats</h1>
+    </div>
+    <%= button_to "New chat", chats_path,
+                  class: "rounded-md bg-gray-950 px-4 py-2 text-sm font-medium text-white hover:bg-gray-800" %>
+  </header>
+
+  <% if @chats.any? %>
+    <ol class="divide-y divide-gray-200">
+      <% @chats.each do |chat| %>
+        <% first_message = chat.messages.find { |message| message.role == "user" } %>
+        <li>
+          <%= link_to chat_path(chat), class: "block py-5 hover:bg-gray-50" do %>
+            <p class="truncate font-medium text-gray-950"><%= first_message&.content.presence || "New chat" %></p>
+            <p class="mt-1 text-sm text-gray-500"><%= time_ago_in_words(chat.updated_at) %> ago</p>
+          <% end %>
+        </li>
+      <% end %>
+    </ol>
+  <% else %>
+    <div class="py-16 text-center">
+      <p class="text-gray-600">No chats yet.</p>
+      <%= button_to "Start your first chat", chats_path,
+                    class: "mt-4 rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50" %>
+    </div>
+  <% end %>
+</main>

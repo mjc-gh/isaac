@@ -6,6 +6,9 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :dashboards, only: [:index]
+  resources :chats, only: [:index, :create, :show] do
+    resources :messages, only: [:create]
+  end
 
   namespace :users do
     resources :sessions, only: [:new, :create, :destroy] do
