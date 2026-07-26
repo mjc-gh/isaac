@@ -11,7 +11,7 @@ class AssistantAgent < RubyLLM::Agent
 
   def self.with_user_tools(user:, forwarded_message:)
     chat = create!(user:, forwarded_message:)
-    chat.with_tool(GoogleCalendarSearchTool.new(user))
+    chat.with_tool(GoogleCalendarSearchTool.new(user), calls: :many)
     chat
   end
 

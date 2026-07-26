@@ -1,12 +1,7 @@
 # frozen_string_literal: true
 
 class GoogleCalendarSearchTool < RubyLLM::Tool
-  description <<~DESC.squish
-    Search for events on the user's calendar. When start_time and stop_time
-    parameters aren't explicitly provided, use the relative time tool for
-    generating a reasonable start_time parameter and current time tool
-    for generating a reasonable stop_time parameter.
-  DESC
+  description "Search for events on the user's calendar between a given time range."
 
   param :start_time, type: "string", desc: "Start of the time range in ISO8601 format (e.g., '2025-05-17T09:00:00Z')", required: true
   param :stop_time, type: "string", desc: "End of the time range in ISO8601 format (e.g., '2025-05-17T17:00:00Z')", required: true

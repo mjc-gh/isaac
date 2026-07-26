@@ -19,16 +19,14 @@ class AssistantMailboxTest < ActiveSupport::TestCase
     inbound_email = ActionMailbox::InboundEmail.create_and_extract_message_id!(mail_message.to_s)
     mailbox = AssistantMailbox.new(inbound_email)
 
-    # Mock AssistantAgent instance and class
     agent_response_mock = Minitest::Mock.new
     agent_response_mock.expect(:content, "result", [])
 
     agent_instance_mock = Minitest::Mock.new
-    agent_instance_mock.expect(:with_tool, agent_instance_mock, [GoogleCalendarSearchTool])
     agent_instance_mock.expect(:ask, agent_response_mock, [/Test email body/])
 
     agent_mock = Minitest::Mock.new
-    agent_mock.expect(:create!, agent_instance_mock, [], user: @user, forwarded_message: nil)
+    agent_mock.expect(:with_user_tools, agent_instance_mock, [], user: @user, forwarded_message: nil)
 
     mailer_mock = Minitest::Mock.new
     mailer_mock.expect(:deliver_later, nil, [])

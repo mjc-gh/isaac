@@ -12,11 +12,11 @@
   </header>
 
   <div id="messages" class="flex-1 space-y-5 py-8" aria-live="polite">
-    <% @chat.messages.where.not(id: nil).order(:created_at).each do |message| %>
+    <% @messages.each do |message| %>
       <%= render message %>
     <% end %>
 
-    <% unless @chat.messages.where.not(id: nil).exists? %>
+    <% if @messages.empty? %>
       <div id="empty_chat" class="py-16 text-center text-sm text-gray-500">
         Send a message to start the conversation.
       </div>

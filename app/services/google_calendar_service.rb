@@ -22,7 +22,8 @@ class GoogleCalendarService
 
     response = service.list_events(calendar_id, **kwargs)
     items = response.items.map { self.class.event_hash(it) }
-    items.sort_by! { -it.start }
+    items.sort_by! { it[:start] }
+    items.reverse!
     items
   end
 
@@ -78,14 +79,6 @@ class GoogleCalendarService
     token
   end
 
-  def token_expired?(token)
-    # Signet::OAuth2::Client stores expiration in the @expires_at attribute
-    # If expires_at is nil, the token doesn't expire or we don't have expiration info
-    return false if token.expires_at.nil?
-
-    Time.now >= token.expires_at
-  end
-
   def refresh_and_get_client(auth_token)
     token = Signet::OAuth2::Client.new(
       client_id: Environ["ISAAC_GOOGLE_CLIENT_ID"],
@@ -98,13 +91,5 @@ class GoogleCalendarService
     token
   rescue StandardError => e
     raise GoogleCalendarTokenError, "Failed to refresh access token: #{e.message}"
-  end
-
-  def oauth_client_id
-    Environ["ISAAC_GOOGLE_CLIENT_ID"]
-  end
-
-  def oauth_client_secret
-    Environ["ISAAC_GOOGLE_CLIENT_SECRET"]
   end
 end

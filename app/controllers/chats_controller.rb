@@ -15,6 +15,7 @@ class ChatsController < ApplicationController
   end
 
   def show
+    @messages = @chat.messages.includes(:parent_tool_call, :tool_calls).order(:created_at).to_a
     @message = @chat.messages.build
   end
 

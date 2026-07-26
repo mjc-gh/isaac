@@ -44,13 +44,49 @@ class ChatsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "shows a chat with its Turbo stream and composer" do
+    assistant_message = @chat.messages.create!(role: "assistant")
+    tool_call = assistant_message.tool_calls.create!(
+      tool_call_id: "call_1",
+      name: "google_calendar_search",
+      arguments: { start_time: "2026-07-26T09:00:00Z" }
+    )
+    date_tool_call = assistant_message.tool_calls.create!(
+      tool_call_id: "call_2",
+      name: "current_date_time",
+      arguments: {}
+    )
+    tool_result = @chat.messages.create!(
+      role: "tool",
+      content: [{ summary: "Lunch" }].to_json,
+      tool_call_id: tool_call.id
+    )
+    date_tool_result = @chat.messages.create!(
+      role: "tool",
+      content: "2026-07-26T12:00:00Z",
+      tool_call_id: date_tool_call.id
+    )
     sign_in
 
     get chat_url(@chat)
 
     assert_response :success
     assert_select "turbo-cable-stream-source[channel='Turbo::StreamsChannel']"
-    assert_select "#message_#{@chat.messages.last.id}", text: /Plan my afternoon/
+    assert_select "#message_#{@chat.messages.find_by!(role: "user").id}", text: /Plan my afternoon/
+    assert_select "article#message_#{assistant_message.id}" do
+      assert_select "details", count: 2
+      assert_select "details[open]", count: 0
+      assert_select "summary", text: /Used Google calendar search/
+      assert_select "summary", text: /Used Current date time/
+      assert_select "pre", text: /start_time.*2026-07-26T09:00:00Z/m
+    end
+    assert_select "article#message_#{tool_result.id}" do
+      assert_select "summary", text: /Result from Google calendar search/
+      assert_select "pre", text: /summary.*Lunch/m
+    end
+    assert_select "article#message_#{date_tool_result.id}" do
+      assert_select "summary", text: /Result from Current date time/
+      assert_select "pre", text: "2026-07-26T12:00:00Z"
+    end
     assert_select "form#new_message"
   end
 

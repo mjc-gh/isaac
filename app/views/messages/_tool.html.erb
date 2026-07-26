@@ -1,2 +1,12 @@
 <% tool ||= local_assigns[:message] %>
-<div id="message_<%= tool.id %>" class="hidden" aria-hidden="true"><%= tool.content %></div>
+<article id="message_<%= tool.id %>" class="max-w-[95%] sm:max-w-[85%]">
+  <details class="rounded-lg border border-gray-200 bg-white text-sm text-gray-700">
+    <summary class="cursor-pointer rounded-lg px-3 py-2 font-medium text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-500">
+      Result from <%= tool.parent_tool_call.name.humanize %>
+    </summary>
+    <div class="border-t border-gray-200 px-3 py-3">
+      <pre class="overflow-x-auto whitespace-pre-wrap break-words rounded-md bg-gray-50 p-3 text-xs leading-5 text-gray-800"><%= format_tool_value(tool.content) %></pre>
+    </div>
+  </details>
+  <p class="mt-1 text-xs text-gray-400"><%= tool.created_at.strftime("%l:%M %p") %></p>
+</article>
