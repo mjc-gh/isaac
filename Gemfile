@@ -4,6 +4,7 @@ gem "rails", "~> 8.1.3"
 
 # App
 gem "bootsnap"
+gem "chronic"
 gem "google-apis-calendar_v3"
 gem "importmap-rails"
 gem "mission_control-jobs"

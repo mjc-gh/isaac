@@ -13,12 +13,17 @@ class GoogleCalendarService
     response.items.map { self.class.calendar_hash(it) }
   end
 
-  def list_events(calendar_id, start_time:, stop_time:)
+  def list_events(calendar_id, start_time:, stop_time:, search_query: nil)
     service = Google::Apis::CalendarV3::CalendarService.new
     service.authorization = auth_client
 
-    response = service.list_events(calendar_id, time_min: start_time.iso8601, time_max: stop_time.iso8601)
-    response.items.map { self.class.event_hash(it) }
+    kwargs = { time_min: start_time.iso8601, time_max: stop_time.iso8601 }
+    kwargs[:q] = search_query if search_query.present?
+
+    response = service.list_events(calendar_id, **kwargs)
+    items = response.items.map { self.class.event_hash(it) }
+    items.sort_by! { -it.start }
+    items
   end
 
   def self.calendar_hash(calendar)

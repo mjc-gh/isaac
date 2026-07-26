@@ -1,17 +1,23 @@
 # frozen_string_literal: true
 
 class GoogleCalendarSearchTool < RubyLLM::Tool
-  description "Search for events in a user's Google Calendar within a specified time range"
+  description <<~DESC.squish
+    Search for events on the user's calendar. When start_time and stop_time
+    parameters aren't explicitly provided, use the relative time tool for
+    generating a reasonable start_time parameter and current time tool
+    for generating a reasonable stop_time parameter.
+  DESC
 
   param :start_time, type: "string", desc: "Start of the time range in ISO8601 format (e.g., '2025-05-17T09:00:00Z')", required: true
   param :stop_time, type: "string", desc: "End of the time range in ISO8601 format (e.g., '2025-05-17T17:00:00Z')", required: true
+  param :search_query, type: "string", desc: "Free-text search term to filter events", required: false
   param :calendar_id, type: "string", desc: "Calendar ID to search (defaults to user's primary calendar)", required: false
 
   def initialize(user)
     @user = user
   end
 
-  def execute(start_time:, stop_time:, calendar_id: nil)
+  def execute(start_time:, stop_time:, search_query: nil, calendar_id: nil)
     # Parse ISO8601 strings to Time objects (service expects Time objects)
     start_time_obj = Time.parse(start_time)
     stop_time_obj = Time.parse(stop_time)
@@ -23,7 +29,8 @@ class GoogleCalendarSearchTool < RubyLLM::Tool
     events = GoogleCalendarService.new(@user).list_events(
       calendar_to_search,
       start_time: start_time_obj,
-      stop_time: stop_time_obj
+      stop_time: stop_time_obj,
+      search_query:
     )
 
     # Return events as JSON string for the LLM to process

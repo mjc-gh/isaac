@@ -6,4 +6,12 @@ class AssistantAgent < RubyLLM::Agent
 
   inputs :forwarded_message
   instructions name: -> { chat.user.first_name }
+
+  tools CurrentDateTimeTool, RelativeDateTimeTool
+
+  def self.with_user_tools(user:, forwarded_message:)
+    chat = create!(user:, forwarded_message:)
+    chat.with_tool(GoogleCalendarSearchTool.new(user))
+    chat
+  end
 end

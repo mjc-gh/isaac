@@ -6,6 +6,8 @@ class User < ApplicationRecord
   has_many :user_aliases, dependent: :destroy
   has_many :auth_tokens, dependent: :destroy
 
+  has_many :chats
+
   normalizes :email, with: ->(email) { email.downcase }
 
   validates :email, presence: true,
