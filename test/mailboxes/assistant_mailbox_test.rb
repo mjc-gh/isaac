@@ -53,6 +53,56 @@ class AssistantMailboxTest < ActiveSupport::TestCase
     assert_mock mailer_mock
   end
 
+  test "uses the decoded text part for multipart mail" do
+    mail_message = Mail.new do |mail|
+      mail.to = "assistant@example.com"
+      mail.from = @user.email
+      mail.subject = "Multipart test"
+      mail.text_part do |part|
+        part.body = "Multipart email body"
+      end
+      mail.html_part do |part|
+        part.body = "<p>Multipart email body</p>"
+      end
+    end
+
+    inbound_email = ActionMailbox::InboundEmail.create_and_extract_message_id!(mail_message.to_s)
+    mailbox = AssistantMailbox.new(inbound_email)
+
+    agent_response_mock = Minitest::Mock.new
+    agent_response_mock.expect(:content, "result", [])
+
+    agent_instance_mock = Minitest::Mock.new
+    agent_instance_mock.expect(:ask, agent_response_mock, ["Multipart email body"])
+
+    agent_mock = Minitest::Mock.new
+    agent_mock.expect(:with_user_tools, agent_instance_mock, [], user: @user, forwarded_message: nil)
+
+    mailer_mock = Minitest::Mock.new
+    mailer_mock.expect(:deliver_later, nil, [])
+
+    reply_to_mailer_mock = Minitest::Mock.new
+    reply_to_mailer_mock.expect(
+      :threaded_email, mailer_mock, [],
+      to: @user.email,
+      subject: "Re: Multipart test",
+      body: "result",
+      message_id: mail_message.message_id
+    )
+
+    stub_const(Object, :AssistantAgent, agent_mock) do
+      stub_const(Object, :ReplyToMailer, reply_to_mailer_mock) do
+        mailbox.process
+      end
+    end
+
+    assert_mock agent_mock
+    assert_mock agent_instance_mock
+    assert_mock agent_response_mock
+    assert_mock reply_to_mailer_mock
+    assert_mock mailer_mock
+  end
+
   test "calls assistant agent for user found via alias" do
     alias_email = user_aliases(:alice_alias_1).email
     mail_message = Mail.new(

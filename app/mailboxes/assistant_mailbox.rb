@@ -6,7 +6,7 @@ class AssistantMailbox < ApplicationMailbox
     user = find_user_by_email(email)
 
     chat = AssistantAgent.with_user_tools(user:, forwarded_message: nil)
-    response = chat.ask(mail.body.decoded)
+    response = chat.ask(decoded_mail_body)
 
     ReplyToMailer.threaded_email(
       to: email,
@@ -19,6 +19,10 @@ class AssistantMailbox < ApplicationMailbox
   end
 
   private
+
+  def decoded_mail_body
+    mail.text_part ? mail.text_part.body.decoded : mail.body.decoded
+  end
 
   def find_user_by_email(email)
     User.find_by(email:) || UserAlias.find_by(email:)&.user || raise(ActiveRecord::RecordNotFound)
