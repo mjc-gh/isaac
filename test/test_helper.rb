@@ -12,12 +12,12 @@ if ENV["COVERAGE"].present?
     minimum_coverage 100
     enable_coverage :branch
 
-    add_filter "vendor"
-    add_filter "test"
+    skip "vendor"
+    skip "test"
 
     # NOTE: This is loaded as part of app environment and we cannot
     # correctly measure code coverage as a result.
-    add_filter "lib/environ.rb"
+    skip "lib/environ.rb"
   end
 
   SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([

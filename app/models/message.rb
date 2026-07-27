@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# :nocov:
+# simplecov:disable
 class Message < ApplicationRecord
   acts_as_message
   has_many_attached :attachments
@@ -13,4 +13,4 @@ class Message < ApplicationRecord
                         content: ERB::Util.html_escape(content.to_s)
   end
 end
-# :nocov:
+# simplecov:disable

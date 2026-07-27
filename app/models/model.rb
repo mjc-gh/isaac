@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# :nocov:
+# simplecov:disable
 class Model < ApplicationRecord
   acts_as_model
 end
-# :nocov:
+# simplecov:disable

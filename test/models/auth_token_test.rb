@@ -79,4 +79,20 @@ class AuthTokenTest < ActiveSupport::TestCase
     fetched = AuthToken.find(auth_token.id)
     assert_equal refresh_token_value, fetched.refresh_token
   end
+
+  test "expired? returns false for a future expiration" do
+    auth_token = AuthToken.new(expires_at: 1.minute.from_now)
+
+    assert_not auth_token.expired?
+  end
+
+  test "expired? returns true for a past expiration" do
+    auth_token = AuthToken.new(expires_at: 1.minute.ago)
+
+    assert auth_token.expired?
+  end
+
+  test "expired? returns true when expiration is missing" do
+    assert AuthToken.new.expired?
+  end
 end

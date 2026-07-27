@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# :nocov:
+# simplecov:disable
 class ToolCall < ApplicationRecord
   acts_as_tool_call
 end
-# :nocov:
+# simplecov:disable

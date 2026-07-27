@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# :nocov:
+# simplecov:disable
 class Chat < ApplicationRecord
   acts_as_chat
 
   belongs_to :user
 end
-# :nocov:
+# simplecov:disable

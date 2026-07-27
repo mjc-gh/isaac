@@ -156,9 +156,10 @@ class GoogleCalendarSearchToolTest < ActiveSupport::TestCase
     times_captured = {}
 
     mock_service = Minitest::Mock.new
-    mock_service.expect(:list_events, []) do |_calendar_id, start_time:, stop_time:|
+    mock_service.expect(:list_events, []) do |_calendar_id, start_time:, stop_time:, search_query:|
       times_captured[:start] = start_time
       times_captured[:stop] = stop_time
+      assert_nil search_query
       true
     end
 
