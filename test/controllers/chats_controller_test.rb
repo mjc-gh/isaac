@@ -87,7 +87,7 @@ class ChatsControllerTest < ActionDispatch::IntegrationTest
       assert_select "summary", text: /Result from Current date time/
       assert_select "pre", text: "2026-07-26T12:00:00Z"
     end
-    assert_select "form#new_message"
+    assert_select "form#new_message textarea[data-controller='submit-on-enter'][data-action='keydown->submit-on-enter#submit']"
   end
 
   test "does not show another user's chat" do
