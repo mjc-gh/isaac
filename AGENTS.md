@@ -1,6 +1,6 @@
 # Development Guidelines - tiny_pixel
 
-**isaac**: The "Intelligent System for Agent Assistant Communications" (I.S.A.A.C) is my personal digital assistant built with
+**ISAAC**: The "Intelligent System for Agent Assistant Communications" (I.S.A.A.C) is my personal digital assistant built with
 Rails, Action Mailbox, and RubyLLM.
 
 ## Quick Commands
