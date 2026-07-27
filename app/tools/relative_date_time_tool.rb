@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RelativeDateTimeTool < RubyLLM::Tool
   desc "Get a relative time, like '5 minutes ago' or '12 hours ago', as ISO8601 format"
 
