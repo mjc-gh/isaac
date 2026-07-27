@@ -23,15 +23,42 @@ class DashboardsControllerTest < ActionDispatch::IntegrationTest
     assert_select "p", text: /#{@user.email}/
   end
 
-  test "should display connected accounts link with count when authenticated" do
+  test "should display account stat cards with current user's counts" do
     token = @user.generate_magic_link_token(for: :session)
     get verify_users_sessions_url(token: token)
 
     get dashboards_url
 
     assert_response :success
-    assert_select "a", text: /Connected Accounts \(1\)/
-    assert_select "a[href=?]", users_auth_tokens_path
+    assert_select "nav[aria-label=?]", "Account" do
+      assert_select "a[href=?]", users_aliases_path, count: 1 do
+        assert_select "span", text: "Aliases"
+        assert_select "span", text: "2"
+      end
+      assert_select "a[href=?]", users_auth_tokens_path, count: 1 do
+        assert_select "span", text: "Connected Accounts"
+        assert_select "span", text: "1"
+      end
+    end
+  end
+
+  test "should display navigable zero-count account stat cards" do
+    token = users(:charlie).generate_magic_link_token(for: :session)
+    get verify_users_sessions_url(token: token)
+
+    get dashboards_url
+
+    assert_response :success
+    assert_select "nav[aria-label=?]", "Account" do
+      assert_select "a[href=?]", users_aliases_path, count: 1 do
+        assert_select "span", text: "Aliases"
+        assert_select "span", text: "0"
+      end
+      assert_select "a[href=?]", users_auth_tokens_path, count: 1 do
+        assert_select "span", text: "Connected Accounts"
+        assert_select "span", text: "0"
+      end
+    end
   end
 
   test "should link to new and existing chats when authenticated" do
