@@ -27,6 +27,20 @@ class GoogleCalendarService
     items
   end
 
+  def add_event(calendar_id, title:, start_time:, stop_time:, description:)
+    service = Google::Apis::CalendarV3::CalendarService.new
+    service.authorization = auth_client
+
+    event = Google::Apis::CalendarV3::Event.new(
+      summary: title,
+      description:,
+      start: Google::Apis::CalendarV3::EventDateTime.new(date_time: start_time),
+      end: Google::Apis::CalendarV3::EventDateTime.new(date_time: stop_time)
+    )
+
+    self.class.event_hash(service.insert_event(calendar_id, event))
+  end
+
   def self.calendar_hash(calendar)
     {
       id: calendar.id,

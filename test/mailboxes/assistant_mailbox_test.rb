@@ -26,7 +26,7 @@ class AssistantMailboxTest < ActiveSupport::TestCase
     agent_instance_mock.expect(:ask, agent_response_mock, [/Test email body/])
 
     agent_mock = Minitest::Mock.new
-    agent_mock.expect(:with_user_tools, agent_instance_mock, [], user: @user, forwarded_message: nil)
+    agent_mock.expect(:new_chat, agent_instance_mock, [], user: @user, forwarded_message: nil)
 
     mailer_mock = Minitest::Mock.new
     mailer_mock.expect(:deliver_later, nil, [])
@@ -76,7 +76,7 @@ class AssistantMailboxTest < ActiveSupport::TestCase
     agent_instance_mock.expect(:ask, agent_response_mock, ["Multipart email body"])
 
     agent_mock = Minitest::Mock.new
-    agent_mock.expect(:with_user_tools, agent_instance_mock, [], user: @user, forwarded_message: nil)
+    agent_mock.expect(:new_chat, agent_instance_mock, [], user: @user, forwarded_message: nil)
 
     mailer_mock = Minitest::Mock.new
     mailer_mock.expect(:deliver_later, nil, [])

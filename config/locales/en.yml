@@ -51,6 +51,8 @@ en:
     api_error: "Unable to fetch calendars. Please try again."
     no_google_token: "Please connect your Google account first."
     error: "Failed to save calendar preference."
+  settings:
+    updated: "Settings saved successfully."
   user_mailer:
     login:
       subject: "Your sign in link"

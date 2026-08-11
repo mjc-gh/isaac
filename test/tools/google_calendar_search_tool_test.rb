@@ -21,6 +21,11 @@ class GoogleCalendarSearchToolTest < ActiveSupport::TestCase
     assert_includes @tool.description.downcase, "calendar"
   end
 
+  test "tool has an optional timezone parameter" do
+    assert_includes @tool.parameters.keys, :timezone
+    refute @tool.parameters[:timezone].required
+  end
+
   test "execute calls GoogleCalendarService with correct calendar id" do
     start_time = Time.now
     end_time = start_time + 1.hour
@@ -171,6 +176,45 @@ class GoogleCalendarSearchToolTest < ActiveSupport::TestCase
       assert_instance_of Time, times_captured[:stop]
     end
 
+    assert_mock(mock_service)
+  end
+
+  test "execute uses the user's timezone for timestamps without an offset" do
+    @user.update!(timezone: "Eastern Time (US & Canada)")
+    captured_times = []
+    mock_service = Minitest::Mock.new
+    mock_service.expect(:list_events, []) do |_calendar_id, start_time:, stop_time:, **_kwargs|
+      captured_times.push(start_time, stop_time)
+      true
+    end
+
+    GoogleCalendarService.stub :new, mock_service do
+      @tool.execute(start_time: "2026-07-27T09:00:00", stop_time: "2026-07-27T10:00:00")
+    end
+
+    assert_equal "2026-07-27T09:00:00-04:00", captured_times[0].iso8601
+    assert_equal "2026-07-27T10:00:00-04:00", captured_times[1].iso8601
+    assert_mock(mock_service)
+  end
+
+  test "execute uses the optional timezone parameter" do
+    @user.update!(timezone: "Eastern Time (US & Canada)")
+    captured_time = nil
+    mock_service = Minitest::Mock.new
+    mock_service.expect(:list_events, []) do |_calendar_id, start_time:, **_kwargs|
+      captured_time = start_time
+      true
+    end
+
+    GoogleCalendarService.stub :new, mock_service do
+      @tool.execute(
+        start_time: "2026-07-27T09:00:00",
+        stop_time: "2026-07-27T10:00:00",
+        timezone: "Pacific Time (US & Canada)"
+      )
+    end
+
+    assert_equal "2026-07-27T09:00:00-07:00", captured_time.iso8601
     assert_mock(mock_service)
   end
 

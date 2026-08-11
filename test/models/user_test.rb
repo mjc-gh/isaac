@@ -37,4 +37,15 @@ class UserTest < ActiveSupport::TestCase
     user = User.create!(email: "test@example.com", first_name: "Test", last_name: "User")
     assert_nil user.primary_calendar_id
   end
+
+  test "timezone defaults to UTC" do
+    user = User.create!(email: "test@example.com", first_name: "Test", last_name: "User")
+    assert_equal "UTC", user.timezone
+  end
+
+  test "timezone must be a recognized time zone" do
+    user = User.new(email: "test@example.com", first_name: "Test", last_name: "User", timezone: "Not/A_Timezone")
+    assert_not user.valid?
+    assert_includes user.errors[:timezone], "is not included in the list"
+  end
 end

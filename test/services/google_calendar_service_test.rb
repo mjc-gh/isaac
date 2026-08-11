@@ -121,6 +121,50 @@ class GoogleCalendarServiceTest < ActiveSupport::TestCase
     assert_mock calendar_api
   end
 
+  test "add_event authorizes, inserts an event, and normalizes the response" do
+    start_time = Time.zone.parse("2026-07-27 09:00:00")
+    stop_time = start_time + 1.hour
+    response = google_event(
+      id: "created",
+      summary: "Planning",
+      start_time:,
+      stop_time:,
+      description: "Discuss the upcoming release"
+    )
+    calendar_api = Minitest::Mock.new
+    calendar_api.expect(:authorization=, nil, [Signet::OAuth2::Client])
+    calendar_api.expect(:insert_event, response) do |calendar_id, event|
+      calendar_id == "calendar_id" && event.is_a?(Google::Apis::CalendarV3::Event) &&
+        event.summary == "Planning" && event.description == "Discuss the upcoming release" &&
+        event.start.date_time == start_time && event.end.date_time == stop_time
+    end
+
+    Google::Apis::CalendarV3::CalendarService.stub(:new, calendar_api) do
+      assert_equal(
+        {
+          id: "created",
+          summary: "Planning",
+          description: "Discuss the upcoming release",
+          start: start_time,
+          stop: stop_time,
+          status: "confirmed",
+          location: nil,
+          created: start_time - 1.day,
+          link: "https://calendar.google.com/calendar/event?eid=created"
+        },
+        @service.add_event(
+          "calendar_id",
+          title: "Planning",
+          start_time:,
+          stop_time:,
+          description: "Discuss the upcoming release"
+        )
+      )
+    end
+
+    assert_mock calendar_api
+  end
+
   test "event_hash handles missing event times" do
     event = Google::Apis::CalendarV3::Event.new(
       id: "cancelled_event",

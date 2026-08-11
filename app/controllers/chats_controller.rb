@@ -9,7 +9,7 @@ class ChatsController < ApplicationController
   end
 
   def create
-    chat = AssistantAgent.with_user_tools(user: current_user, forwarded_message: nil)
+    chat = AssistantAgent.new_chat(user: current_user, forwarded_message: nil)
 
     redirect_to chat_path(chat)
   end

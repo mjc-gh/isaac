@@ -5,7 +5,7 @@ class AssistantMailbox < ApplicationMailbox
     email = mail.from_address.try(:address)
     user = find_user_by_email(email)
 
-    chat = AssistantAgent.with_user_tools(user:, forwarded_message: nil)
+    chat = AssistantAgent.new_chat(user:, forwarded_message: nil)
     response = chat.ask(decoded_mail_body)
 
     ReplyToMailer.threaded_email(

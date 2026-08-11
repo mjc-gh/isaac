@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     resources :aliases
     resources :auth_tokens, only: [:index, :destroy]
     resource :calendar_preferences, only: [:edit, :update]
+    resource :settings, only: [:edit, :update]
   end
 
   get "auth/failure", to: "users/oauth_callbacks#failure", as: :users_auth_failure

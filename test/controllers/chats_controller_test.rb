@@ -33,7 +33,7 @@ class ChatsControllerTest < ActionDispatch::IntegrationTest
     sign_in
     created_chat = @user.chats.create!(model: @model)
     agent_mock = Minitest::Mock.new
-    agent_mock.expect(:with_user_tools, created_chat, [], user: @user, forwarded_message: nil)
+    agent_mock.expect(:new_chat, created_chat, [], user: @user, forwarded_message: nil)
 
     stub_const(Object, :AssistantAgent, agent_mock) do
       post chats_url

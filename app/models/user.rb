@@ -17,6 +17,7 @@ class User < ApplicationRecord
 
   validates :first_name, length: { minimum: 2, maximum: 50 }, allow_blank: true
   validates :last_name, length: { minimum: 2, maximum: 50 }, allow_blank: true
+  validates :timezone, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }
 
   def primary_calendar_id
     settings["primary_calendar_id"]
@@ -24,6 +25,10 @@ class User < ApplicationRecord
 
   def primary_calendar_id=(value)
     settings["primary_calendar_id"] = value
+  end
+
+  def with_timezone(&block)
+    Time.use_zone(timezone || "UTC", &block)
   end
 
   private

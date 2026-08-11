@@ -4,52 +4,61 @@ require "test_helper"
 
 class AssistantAgentTest < ActiveSupport::TestCase
   class ChatDouble
-    attr_reader :tool, :calls
+    attr_reader :tools, :calls
 
     def initialize(id: nil, user: nil)
       @id = id
       @user = user
-      @calls = 0
+      @tools = []
+      @calls = []
     end
 
     attr_reader :id, :user
 
-    def with_tool(tool, calls: nil)
-      @tool = tool
-      @calls += 1 if calls == :many
+    def with_tools(*tools, calls: nil)
+      @tools.concat tools
+      @calls << calls
       self
     end
   end
 
-  test "with_user_tools creates a chat and adds the calendar tool" do
+  test "new_chat creates a chat and adds both calendar tools" do
     user = users(:alice)
     chat = ChatDouble.new
-    calendar_tool = Object.new
+    search_tool = Object.new
+    add_event_tool = Object.new
 
     AssistantAgent.stub :create!, chat do
-      GoogleCalendarSearchTool.stub :new, calendar_tool do
-        result = AssistantAgent.with_user_tools(user:, forwarded_message: "Hello")
+      GoogleCalendarSearchTool.stub :new, search_tool do
+        GoogleCalendarAddEventTool.stub :new, add_event_tool do
+          result = AssistantAgent.new_chat(user:, forwarded_message: "Hello")
 
-        assert_same chat, result
-        assert_same calendar_tool, chat.tool
-        assert_equal 1, chat.calls
+          assert_same chat, result
+          assert_includes chat.tools, search_tool
+          assert_includes chat.tools, add_event_tool
+          assert_equal [:many], chat.calls
+        end
       end
     end
   end
 
-  test "for_chat finds the chat and adds the calendar tool" do
+  test "for_chat finds the chat and adds both calendar tools" do
     user = users(:alice)
     chat = ChatDouble.new(id: 123, user:)
     found_chat = ChatDouble.new
-    calendar_tool = Object.new
+    search_tool = Object.new
+    add_event_tool = Object.new
 
     AssistantAgent.stub :find, found_chat do
-      GoogleCalendarSearchTool.stub :new, calendar_tool do
-        result = AssistantAgent.for_chat(chat, forwarded_message: "Continue")
+      GoogleCalendarSearchTool.stub :new, search_tool do
+        GoogleCalendarAddEventTool.stub :new, add_event_tool do
+          result = AssistantAgent.for_chat(chat, forwarded_message: "Continue")
 
-        assert_same found_chat, result
-        assert_same calendar_tool, found_chat.tool
-        assert_equal 0, found_chat.calls
+          assert_same found_chat, result
+          assert_includes found_chat.tools, search_tool
+          assert_includes found_chat.tools, add_event_tool
+          assert_equal [:many], found_chat.calls
+        end
       end
     end
   end

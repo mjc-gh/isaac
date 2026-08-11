@@ -4,7 +4,7 @@ require "test_helper"
 
 class RelativeDateTimeToolTest < ActiveSupport::TestCase
   setup do
-    @tool = RelativeDateTimeTool.new
+    @tool = RelativeDateTimeTool.new(users(:alice))
   end
 
   test "converts a relative time to ISO8601" do
